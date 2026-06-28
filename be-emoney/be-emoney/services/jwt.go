@@ -4,8 +4,8 @@ import (
 	"errors"
 	"time"
 
-	"emoney-2fa/config"
-	"emoney-2fa/models"
+	"emoney-603dc/config"
+	"emoney-603dc/models"
 
 	"github.com/golang-jwt/jwt/v5"
 )

@@ -39,6 +39,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
     final user = UserModel.fromJson(data['user'] as Map<String, dynamic>);
     _client.setAuthToken(token);
     return (user: user, token: token);
+    
   }
 
   @override
@@ -61,4 +62,9 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   void clearAuthToken() {
     _client.clearAuthToken();
   }
+  
+  void setAuthToken(String token) {
+  print("TOKEN DISIMPAN: $token");
+  }
+  
 }

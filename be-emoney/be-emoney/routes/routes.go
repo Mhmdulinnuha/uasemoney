@@ -1,10 +1,10 @@
 package routes
 
 import (
-	"emoney-2fa/config"
-	"emoney-2fa/handlers"
-	"emoney-2fa/middleware"
-	"emoney-2fa/services"
+	"emoney-603dc/config"
+	"emoney-603dc/handlers"
+	"emoney-603dc/middleware"
+	"emoney-603dc/services"
 
 	firebase "firebase.google.com/go/v4"
 	"github.com/gin-gonic/gin"
@@ -25,6 +25,12 @@ func Setup(db *gorm.DB, rdb *redis.Client, firebaseApp *firebase.App, cfg *confi
 	otpHandler := handlers.NewOTPHandler(db, otpSvc)
 	paymentHandler := handlers.NewPaymentHandler(db, otpSvc)
 
+	// Handler marketplace (HARUS DIBUAT)
+	productHandler := handlers.NewProductHandler(db)
+	cartHandler := handlers.NewCartHandler(db)
+	orderHandler := handlers.NewOrderHandler(db)
+
+
 	v1 := r.Group("/v1")
 	{
 		v1.GET("/health", handlers.HealthCheck)
@@ -38,7 +44,7 @@ func Setup(db *gorm.DB, rdb *redis.Client, firebaseApp *firebase.App, cfg *confi
 			authRequired.Use(middleware.AuthMiddleware(jwtSvc))
 			{
 				authRequired.GET("/me", authHandler.Me)
-				authRequired.PUT("/fcm-token", authHandler.UpdateFCMToken)
+				authRequired.POST("/fcm-token", authHandler.UpdateFCMToken)
 				authRequired.POST("/verify-email-otp", authHandler.VerifyEmailOTP)
 			}
 		}
@@ -70,6 +76,23 @@ func Setup(db *gorm.DB, rdb *redis.Client, firebaseApp *firebase.App, cfg *confi
 			payment.POST("/topup", paymentHandler.TopUp)
 			payment.POST("/transfer", paymentHandler.Transfer)
 		}
+		// Marketplace
+    product := v1.Group("/products")
+    {
+        product.GET("", productHandler.GetProducts)
+        product.GET("/:id", productHandler.GetProduct)
+    }
+
+    cart := v1.Group("/cart")
+    {
+        cart.GET("", cartHandler.GetCart)
+        cart.POST("", cartHandler.AddToCart)
+    }
+
+    order := v1.Group("/orders")
+    {
+        order.POST("", orderHandler.CreateOrder)
+    }
 	}
 
 	return r

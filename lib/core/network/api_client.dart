@@ -18,6 +18,7 @@ class ApiClient {
         if (token != null) 'Authorization': 'Bearer $token',
       },
     ));
+    debugPrint("ApiClient hash: ${identityHashCode(this)}");
 
     debugPrint('[ApiClient] baseUrl = ${AppConstants.baseUrl}');
 
@@ -38,15 +39,23 @@ class ApiClient {
     ));
   }
 
-  void setAuthToken(String token) {
-    _dio.options.headers['Authorization'] = 'Bearer $token';
-  }
+ void setAuthToken(String token) {
+  debugPrint("========== SET AUTH TOKEN ==========");
+  debugPrint(token);
+
+  _dio.options.headers['Authorization'] = 'Bearer $token';
+
+  debugPrint(_dio.options.headers.toString());
+}
 
   void clearAuthToken() {
     _dio.options.headers.remove('Authorization');
   }
 
   Future<Map<String, dynamic>> get(String path) async {
+    debugPrint("===== GET =====");
+    debugPrint(path);
+    debugPrint(_dio.options.headers.toString());
     try {
       final response = await _dio.get(path);
       return _handleResponse(response);
@@ -57,6 +66,8 @@ class ApiClient {
 
   Future<Map<String, dynamic>> post(String path, {Map<String, dynamic>? data}) async {
     try {
+      debugPrint("POST ${identityHashCode(this)}");
+      debugPrint(_dio.options.headers.toString());
       final response = await _dio.post(path, data: data);
       return _handleResponse(response);
     } on DioException catch (e) {

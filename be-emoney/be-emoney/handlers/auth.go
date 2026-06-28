@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"emoney-2fa/config"
-	"emoney-2fa/models"
-	"emoney-2fa/services"
+	"emoney-603dc/config"
+	"emoney-603dc/models"
+	"emoney-603dc/services"
 
 	firebase "firebase.google.com/go/v4"
 	fbauth "firebase.google.com/go/v4/auth"

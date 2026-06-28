@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 
-	"emoney-2fa/config"
-	"emoney-2fa/database"
-	"emoney-2fa/routes"
+	"emoney-603dc/config"
+	"emoney-603dc/database"
+	"emoney-603dc/routes"
 )
 
 func main() {

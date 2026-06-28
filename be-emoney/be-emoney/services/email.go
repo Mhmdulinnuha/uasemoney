@@ -4,7 +4,7 @@ import (
 	"crypto/tls"
 	"fmt"
 
-	"emoney-2fa/config"
+	"emoney-603dc/config"
 
 	"gopkg.in/gomail.v2"
 )
